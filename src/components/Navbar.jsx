@@ -1,9 +1,11 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { removeUser } from '../store/slice/userSlice';
 
 const Navbar = () => {
   const navigate=useNavigate()
+  const dispatch=useDispatch()
 
   const{user}=useSelector((state)=>state.user)
   return (
@@ -48,7 +50,7 @@ const Navbar = () => {
               <li>
                 <a>Settings</a>
               </li>
-              <li onClick={()=>{localStorage.removeItem('token'),navigate('/login'),window.location.reload()}}>
+              <li onClick={()=>{localStorage.removeItem('token'),dispatch(removeUser()),navigate('/login'),window.location.reload()}}>
                 <a>Logout</a>
               </li>
             </ul>
