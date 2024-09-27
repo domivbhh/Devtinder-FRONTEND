@@ -50,6 +50,12 @@ const Navbar = () => {
               <li>
                 <a>Settings</a>
               </li>
+              <li>
+                <Link to={'/connections'}>Connections</Link>
+              </li>
+              <li>
+                <Link to={'/requests'}>Requests</Link>
+              </li>
               <li onClick={()=>{localStorage.removeItem('token'),dispatch(removeUser()),navigate('/login'),window.location.reload()}}>
                 <a>Logout</a>
               </li>

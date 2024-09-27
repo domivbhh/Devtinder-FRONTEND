@@ -17,11 +17,11 @@ const Body = () => {
 
   useEffect(()=>{
        if(token && !user.firstName)
-        { fetchUser()
+        { 
+          fetchUser()
         }
-        else{
-          navigate('/login')
-        }
+        
+        
   },[])
 
   const fetchUser=async()=>{

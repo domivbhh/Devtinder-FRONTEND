@@ -45,7 +45,7 @@ const Feed = () => {
   return (
     <div className='flex justify-center my-10'>
           {
-              feed.map((ele)=>{
+              feed && feed.map((ele)=>{
                 return <UserCards data={ele}/>
               })
           }      

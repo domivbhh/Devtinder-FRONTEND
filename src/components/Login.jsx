@@ -33,7 +33,7 @@ const Login = () => {
                 if(result?.data?.token){
                   localStorage.setItem("token", result?.data?.token);
                   dispatch(addUser(result?.data?.sendingData))
-                  return navigate('/')
+                   navigate('/')
                 }
                 else{
                   setErr(result.message)
