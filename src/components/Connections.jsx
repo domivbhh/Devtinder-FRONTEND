@@ -47,8 +47,8 @@ const Connections = () => {
     <div className='text-center'>
       <h1 className='text-3xl text-center text-gray-500 font-bold'>Connections</h1>
       {connections.length>0 && connections.map((ele)=>{
-        return <div className=' mx-auto flex gap-3 m-5 p-5 border rounded-lg bg-base-300 w-1/2'>
-                    <div>
+        return <div className=' mx-auto flex gap-3 m-5 p-5 border rounded-lg bg-base-300 w-3/4'>
+                    <div className='w-1/4'>
                     <img src={ele?.photoUrl} className='w-20 h-20 rounded-full' alt="" />
                     </div>
                     <div className='text-left mx-4'>
