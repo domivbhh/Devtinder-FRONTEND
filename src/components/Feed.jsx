@@ -5,6 +5,7 @@ import { backend } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFeed } from '../store/slice/feedSlice';
 import UserCards from './UserCards';
+import axios from 'axios';
 
 
 const Feed = () => {
@@ -15,25 +16,21 @@ const Feed = () => {
 
   useEffect(()=>{
     if(true){
-      // fetchFeed()
+      fetchFeed()
     }
   },[])
 
 
   const fetchFeed=async()=>{
+      if (feed) return;
     try {
-        const res = await fetch(`${backend}/user/feed`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            token: localStorage.getItem("token"),
-          },
+        const res = await axios(`${backend}/user/feed`, {
           withCredentials: true,
         });
 
-        const result = await res.json();
-        dispatch(addFeed(result.users));
+        console.log(res)
+        // const result = await res.json();
+        dispatch(addFeed(res.data.data));
         
     } catch (error) {
       console.log(error.message)
@@ -43,13 +40,12 @@ const Feed = () => {
   }
 
   return (
-    <div className='flex justify-center my-10'>
-          {/* {
-              feed && feed.map((ele)=>{
-                return <UserCards data={ele}/>
-              })
-          }       */}
-          <h1>Feed</h1>
+    <div className="flex justify-center mx-auto items-center gap-5 flex-col">
+      {feed &&
+        feed.map((ele) => {
+          return <UserCards data={ele} />;
+        })}
+      {/* <h1>Feed</h1> */}
     </div>
   );
 }

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import UserCards from './UserCards';
 import { backend } from '../utils';
 import { addUser } from '../store/slice/userSlice';
+import axios from 'axios';
+import UserViewCards from './UserViewCard';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
@@ -17,10 +19,15 @@ const EditProfile = () => {
       firstName: user?.firstName,
       lastName: user?.lastName,
       age: user?.age,
+      skills:user?.skills,
       gender: user?.gender,
       about: user?.about,
       photoUrl: user?.photoUrl,
     });
+
+    const[showToast,setShowToast]=useState('')
+
+    // console.log(showToast)
 
 
     const handleChange = (e) => {
@@ -30,28 +37,26 @@ const EditProfile = () => {
 
     const handleSubmit = async () => {
       try {
-        const resp = await fetch(`${backend}/profile/`+user._id, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            token:localStorage.getItem('token')
-          },
-          withCredentials: true,
-          body: JSON.stringify(data),
-        });
-        const result = await resp.json();
-        if (result?.data) {
+        const resp = await axios.patch(`${backend}/profile/edit`, {firstName:data?.firstName,lastName:data?.lastName,age:data?.age,gender:data?.gender,photoUrl:data?.photoUrl,skills:data?.skills,about:data?.about},{withCredentials:true});
+        // const result = await resp.json();
+  
+        if (resp?.data) {
           dispatch(addUser(result?.data));
-         setErr('')
-        } else {
-          setErr(result.message);
-        }
-      } catch (error) {
-        setErr(error.message);
+          console.log(resp?.data)
+          setShowToast(true)
+          setTimeout(()=>{
+            setShowToast(false)
+          },3000)
+          setErr('')
+        } 
+     
+      } 
+      catch (error) {
+        setErr(error?.response?.data?.message);
       }
     };
   return (
-    <div className='flex justify-center mx-10 my-8'>
+    <div className="flex justify-center mx-10 my-8">
       <div className="card bg-base-300  w-96 shadow-xl">
         <div className="card-body">
           <h2 className="card-title justify-center">Edit Profile</h2>
@@ -89,7 +94,7 @@ const EditProfile = () => {
               <input
                 type="number"
                 name="age"
-                value={data.age}
+                value={data?.age}
                 onChange={(e) => handleChange(e)}
                 className="input input-bordered w-full max-w-xs"
               />
@@ -132,8 +137,14 @@ const EditProfile = () => {
                 onChange={(e) => handleChange(e)}
                 className="input input-bordered w-full max-w-xs"
               /> */}
-              <select name="gender" id="" onChange={(e)=>handleChange(e)}>
-                <option value='male'>Male</option>
+              <select
+                name="gender"
+                id=""
+                onChange={(e) => handleChange(e)}
+                value={data.gender}
+                className="p-2"
+              >
+                <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="others">Others</option>
               </select>
@@ -148,14 +159,23 @@ const EditProfile = () => {
                 handleSubmit();
               }}
             >
-              Edit
+              Update Profile
             </button>
           </div>
         </div>
       </div>
-      <div className='mx-5'>
-      <UserCards data={data}/>
+      <div className="mx-5">
+        <UserViewCards data={data} />
       </div>
+
+      {showToast && (
+        <div className="toast toast-top toast-end">
+          <div className="alert alert-info">
+            <span>Profile updated.</span>
+          </div>
+         
+        </div>
+      )}
     </div>
   );
 }

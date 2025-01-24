@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UserCards = ({data}) => {
+const UserViewCards = ({data}) => {
   // console.log(data)
   return (
     <div className="">
@@ -17,14 +17,11 @@ const UserCards = ({data}) => {
           <p>
             {data?.age},{data?.gender}
           </p>
-          <div className="card-actions justify-end">
-            <button className="btn btn-primary">Ignore</button>
-            <button className="btn btn-secondary">Interested</button>
-          </div>
+        
         </div>
       </div>
     </div>
   );
 }
 
-export default UserCards
+export default UserViewCards

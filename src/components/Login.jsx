@@ -23,17 +23,17 @@ const Login = () => {
         const handleSubmit=async()=>{
             try {
                 const resp=await axios.post(`${backend}/signin`,{emailId:data.emailId,password:data.password},{withCredentials:true})    
-                console.log(resp.data.data)
+                
+                console.log(resp)
+
                 if(resp?.data?.data){
                   dispatch(addUser(resp?.data?.data))
                    navigate('/')
                 }
-                else{
-                  setErr(resp.message)
-                }
+                
             } 
             catch (error) {
-                setErr(error.message)
+                setErr(error?.response?.data?.message)
             }
         }
 
@@ -72,7 +72,10 @@ const Login = () => {
               </div>
             </label>
           </div>
+
+          {/* Error */}
           <p className='text-red-500 font-bold capitalize'>{err}</p>
+
           <div className="card-actions justify-center">
             <button className="btn btn-primary" onClick={()=>{handleSubmit()}}>Login</button>
           </div>
