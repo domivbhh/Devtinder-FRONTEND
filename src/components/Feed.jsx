@@ -11,11 +11,11 @@ const Feed = () => {
 
   const dispatch=useDispatch()
   const feed=useSelector((state)=>state.feed)
-  console.log(feed)
+  // console.log(feed)
 
   useEffect(()=>{
     if(true){
-      fetchFeed()
+      // fetchFeed()
     }
   },[])
 
@@ -44,11 +44,12 @@ const Feed = () => {
 
   return (
     <div className='flex justify-center my-10'>
-          {
+          {/* {
               feed && feed.map((ele)=>{
                 return <UserCards data={ele}/>
               })
-          }      
+          }       */}
+          <h1>Feed</h1>
     </div>
   );
 }

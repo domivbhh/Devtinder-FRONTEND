@@ -5,6 +5,7 @@ import Footer from './Footer';
 import { backend } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../store/slice/userSlice';
+import axios from 'axios';
 
 const Body = () => {
     const token=localStorage.getItem('token')
@@ -15,33 +16,25 @@ const Body = () => {
     console.log(user)
 
 
-  useEffect(()=>{
-       if(token && !user.firstName)
-        { 
-          fetchUser()
-        }
-        
+    useEffect(()=>{
+    fetchUser()
+       
         
   },[])
 
   const fetchUser=async()=>{
+    if(user?.firstName) return
     try {
-    const res = await fetch(`${backend}/profile/view`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        token:localStorage.getItem('token')
-      },
+    const res = await axios(`${backend}/profile/view`, { 
       withCredentials: true,
     });  
-    const result=await res.json()
-    dispatch(addUser(result.data))
-
+    dispatch(addUser(res?.data?.data))
     } 
     catch (error) {
+      if(error.status===401){
+        navigate('/login')
+      }
       console.log(error.message)
-      navigate('/login')
     }
   }
 

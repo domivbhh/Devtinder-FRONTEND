@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { backend } from '../utils'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from '../store/slice/userSlice'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const Login = () => {
+  const userData=useSelector((state)=>state.user)
   const dispatch=useDispatch()
   const navigate = useNavigate();
   const[err,setErr]=useState('')
@@ -20,23 +22,14 @@ const Login = () => {
 
         const handleSubmit=async()=>{
             try {
-                const resp=await fetch(`${backend}/auth/login`,{
-                    method:'POST',
-                    headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    },
-                    withCredentials: true,
-                    body:JSON.stringify(data)
-                })    
-                const result=await resp.json()
-                if(result?.data?.token){
-                  localStorage.setItem("token", result?.data?.token);
-                  dispatch(addUser(result?.data?.sendingData))
+                const resp=await axios.post(`${backend}/signin`,{emailId:data.emailId,password:data.password},{withCredentials:true})    
+                console.log(resp.data.data)
+                if(resp?.data?.data){
+                  dispatch(addUser(resp?.data?.data))
                    navigate('/')
                 }
                 else{
-                  setErr(result.message)
+                  setErr(resp.message)
                 }
             } 
             catch (error) {
