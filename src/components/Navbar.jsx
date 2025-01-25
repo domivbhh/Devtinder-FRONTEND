@@ -30,7 +30,7 @@ const Navbar = () => {
           <Link to={'/'} className="btn btn-ghost text-xl">DevTinder</Link>
         </div>
         <div className="flex-none">
-          {user && (
+          {user?.firstName && (
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -40,7 +40,7 @@ const Navbar = () => {
                 <div className="w-10 rounded-full flex">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src={`${user.photoUrl}`}
+                    src={`${user?.photoUrl}`}
                   />
                 </div>
               </div>
@@ -57,6 +57,9 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link to={'/connections'}>Connections</Link>
+                </li>
+                <li>
+                  <Link to={'/requests'}>Developer Request</Link>
                 </li>
                 <li>
                   {

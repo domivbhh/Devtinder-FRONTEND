@@ -34,10 +34,11 @@ const Feed = () => {
         
     } catch (error) {
       console.log(error.message)
-    }
-  
+    }  }
 
-  }
+    if(feed?.length<1){
+      return <h1 className='text-center font-md'>No user found</h1>
+    }
 
   return (
     <div className="flex justify-center mx-auto items-center gap-5 flex-col">
