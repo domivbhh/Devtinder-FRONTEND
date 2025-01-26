@@ -1,1 +1,1 @@
-export const backend = "http://3.110.207.78:3000";
+export const backend = "http://localhost:3000";
