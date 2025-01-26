@@ -1,1 +1,1 @@
-export const backend = "/api";
+export const backend = location.hostname==="localhost"?"http://localhost:3000":"/api";
